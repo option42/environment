@@ -1,0 +1,22 @@
+export EDITOR=vim
+
+# SSH Replacement Function
+aliasFunctionSSH()
+{
+  local __sshCmd=$(which ssh)
+  if [ -z "${__sshCmd}" ]; then
+    echo "Error: SSH was not found in \$PATH: please correct and try again" >2
+    return 1
+  fi
+  if [ "$#" == "0" ]; then
+    $__sshCmd --help
+    return 1
+  fi
+  local __host=$1; shift
+  local __session="main"; # TODO: allow session name to be overridden
+  $__sshCmd ${__host} -t "(which tmux >/dev/null 2>&1 && ((tmux has-session -t ${__session} 2>/dev/null && tmux attach -t ${__session}) || tmux new -s ${__session})) || (which bash >/dev/null 2>&1 && bash) || /bin/sh"
+  return $?
+}
+
+alias ssh=aliasFunctionSSH
+
