@@ -325,7 +325,7 @@ function sshAliasFunction
     }
     if(Test-IsHostConsole)
     {
-        & $sshCommand.Path $args[0] -t "(which tmux >/dev/null 2>&1 && ((tmux has-session -t ${session} 2>/dev/null && tmux attach -t ${session}) || tmux new -s ${session}) || (which bash >/dev/null 2>&1 && bash) || /bin/sh"
+        & $sshCommand.Path $args[0] -t "(which tmux >/dev/null 2>&1 && ((tmux has-session -t ${session} 2>/dev/null && tmux attach -t ${session}) || tmux new -s ${session})) || (which bash >/dev/null 2>&1 && bash) || /bin/sh"
     }
     else
     {
